@@ -3,36 +3,38 @@ name: Deploy React App to GitHub Pages
 on:
   push:
     branches:
-      - main   # غيّرها للفرع الرئيسي عندك إذا اسمه مختلف
+      - main   # غيّرها إذا فرعك الرئيسي اسمه مختلف
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      # 1️⃣ استدعاء الكود
+      # 1️⃣ سحب الريبو
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ تجهيز Node.js
+      # 2️⃣ إعداد Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'  # أو النسخة اللي مشروعك بيشتغل عليها
+          node-version: '18'  # أو أي نسخة مناسبة لمشروعك
 
-      # 3️⃣ تثبيت الحزم
+      # 3️⃣ تثبيت التبعيات (npm install)
       - name: Install dependencies
         run: npm install
-        # working-directory: ./  -> مش محتاج لو المشروع في الجذر
+        working-directory: ./react-tutorial  # اضبط هذا على مكان package.json
 
       # 4️⃣ بناء المشروع
       - name: Build project
         run: npm run build
+        working-directory: ./react-tutorial  # نفس المسار
 
-      # 5️⃣ رفعه على GitHub Pages
+      # 5️⃣ رفع build على GitHub Pages
       - name: Deploy to GitHub Pages
         run: npx gh-pages -d build
+        working-directory: ./react-tutorial  # نفس المسار
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
 
