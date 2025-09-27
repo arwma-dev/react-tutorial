@@ -3,7 +3,7 @@ name: Deploy React App to GitHub Pages
 on:
   push:
     branches:
-      - main  # غيّرها إذا فرعك الرئيسي اسمه مختلف
+      - main
 
 jobs:
   build-and-deploy:
@@ -19,17 +19,15 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: .  # الجذر
 
       - name: Build project
         run: npm run build
-        working-directory: .  # الجذر
 
       - name: Deploy to GitHub Pages
         run: npx gh-pages -d build
-        working-directory: .  # الجذر
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
 
 
